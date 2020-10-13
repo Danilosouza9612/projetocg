@@ -7,6 +7,11 @@ public class PontoMedio extends OctantLineAlgorithm{
 		super(gl);
 	}
 
+	public float[] defineColor() {
+		float[] color = { 0.0f,0.0f,0.0f };
+		return color;
+	}
+	
 	private void pontoMedioAsc(int x1, int y1, int x2, int y2) {
 		int x, y, d, dx, dy;
 		int incrNE, incrE;
@@ -23,9 +28,9 @@ public class PontoMedio extends OctantLineAlgorithm{
 		this.gl.glPointSize(1.0f);
 		this.gl.glBegin(GL2.GL_POINTS);
 		while(x<x2) {
-			this.gl.glColor3f(1.0f,1.0f,1.0f);
+			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
 			this.gl.glVertex2d(x, y);
-			if(d<=0) {
+			if(d<0) {
 				d = d + incrE;
 				x++;
 			}else {
@@ -56,9 +61,9 @@ public class PontoMedio extends OctantLineAlgorithm{
 		this.gl.glPointSize(1.0f);
 		this.gl.glBegin(GL2.GL_POINTS);
 		while(x<x2) {
-			this.gl.glColor3f(1.0f,1.0f,1.0f);
+			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
 			this.gl.glVertex2d(y, x);
-			if(d<=0) {
+			if(d<0) {
 				d = d + incrE;
 				x++;
 			}else {
@@ -89,9 +94,9 @@ public class PontoMedio extends OctantLineAlgorithm{
 		this.gl.glPointSize(1.0f);
 		this.gl.glBegin(GL2.GL_POINTS);
 		while(x<x2) {
-			this.gl.glColor3f(1.0f,1.0f,1.0f);
+			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
 			this.gl.glVertex2d(y, x);
-			if(d>0) {
+			if(d>=0) {
 				d = d + incrNE;
 				x++;
 			}else {
@@ -122,9 +127,9 @@ public class PontoMedio extends OctantLineAlgorithm{
 		this.gl.glPointSize(1.0f);
 		this.gl.glBegin(GL2.GL_POINTS);
 		while(x<x2) {
-			this.gl.glColor3f(1.0f,1.0f,1.0f);
+			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
 			this.gl.glVertex2d(x, y);
-			if(d>0) {
+			if(d>=0) {
 				d = d + incrNE;
 				x++;
 			}else {

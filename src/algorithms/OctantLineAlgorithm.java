@@ -2,10 +2,13 @@ package algorithms;
 
 import com.jogamp.opengl.GL2;
 
-public abstract class OctantLineAlgorithm extends LineAlgorithm {
+public abstract class OctantLineAlgorithm extends LineDrawer{	
 	public OctantLineAlgorithm(GL2 gl) {
 		super(gl);
-		// TODO Auto-generated constructor stub
+	}
+	
+	public void drawCircle() {
+		//Desenhar o pixel centrado aqui
 	}
 	
 	public void draw(int x1, int y1, int x2, int y2) {
