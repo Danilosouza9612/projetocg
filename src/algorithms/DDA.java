@@ -2,7 +2,7 @@ package algorithms;
 
 import com.jogamp.opengl.GL2;
 
-public class DDA extends OctantLineAlgorithm{
+public class DDA extends QuadrantLineAlgorithm{
 
 	public DDA(GL2 gl) {
 		super(gl);
@@ -17,6 +17,7 @@ public class DDA extends OctantLineAlgorithm{
 		int dx = x2 - x1;
 		int dy = y2 - y1;
 		int steps;
+		CircleDrawer circleDrawer = new CircleDrawerFactory().createInstance(this.gl);
 		
 		if(Math.abs(dx) > Math.abs(dy)) {
 			steps = Math.abs(dx);
@@ -29,7 +30,7 @@ public class DDA extends OctantLineAlgorithm{
 		float x = x1;
 		float y = y1;
 		for(int k = 0; k <= steps; k++) {
-			this.drawCircle(Math.round(x), Math.round(y));
+			circleDrawer.drawCircle(Math.round(x), Math.round(y), this.color);
 			x += xInc;
 			y += yInc;
 		}
@@ -40,15 +41,12 @@ public class DDA extends OctantLineAlgorithm{
 		int dy = y2 - y1;
 		int aux;
 		int steps;
-		
-		System.out.println(Math.abs(dx));
-		System.out.println(Math.abs(dy));
+		CircleDrawer circleDrawer = new CircleDrawerFactory().createInstance(this.gl);
 		
 		if(Math.abs(dx) > Math.abs(dy)) {
 			steps = Math.abs(dx);
 		}
 		else {
-			System.out.println("Entrou aqui");
 			steps = Math.abs(dy);
 			aux=x1;
 			x1=x2;
@@ -66,57 +64,29 @@ public class DDA extends OctantLineAlgorithm{
 		float x = x1;
 		float y = y1;
 		for(int k = 0; k <= steps; k++) {
-			this.drawCircle(Math.round(x), Math.round(y));
+			circleDrawer.drawCircle(Math.round(x), Math.round(y), this.color);
 			x += xInc;
 			y += yInc;
 		}
 	}
 
 	@Override
-	public void drawFirstOctant(int x1, int y1, int x2, int y2) {
+	public void drawFirstQuadrant(int x1, int y1, int x2, int y2) {
 		this.lineAsc(x1, y1, x2, y2);
-		
 	}
 
 	@Override
-	public void drawSecondOctant(int x1, int y1, int x2, int y2) {
-		this.lineAsc(x1, y1, x2, y2);
-		
-	}
-
-	@Override
-	public void drawThirdOctant(int x1, int y1, int x2, int y2) {
+	public void drawSecondQuadrant(int x1, int y1, int x2, int y2) {
 		this.lineDesc(x1, y1, x2, y2);
-		
 	}
 
 	@Override
-	public void drawFourthOctant(int x1, int y1, int x2, int y2) {
-		this.lineDesc(x1, y1, x2, y2);
-		
-	}
-
-	@Override
-	public void drawFifthOctant(int x1, int y1, int x2, int y2) {
+	public void drawThirdQuadrant(int x1, int y1, int x2, int y2) {
 		this.lineAsc(x2, y2, x1, y1);
-		
 	}
-
+	
 	@Override
-	public void drawSixthOctant(int x1, int y1, int x2, int y2) {
-		this.lineAsc(x2, y2, x1, y1);
-		
+	public void drawFourthQuadrant(int x1, int y1, int x2, int y2) {
+		this.lineDesc(x2, y2, x1, y1);	
 	}
-
-	@Override
-	public void drawSeventhOctant(int x1, int y1, int x2, int y2) {
-		this.lineDesc(x2, y2, x1, y1);
-		
-	}
-
-	@Override
-	public void drawEighthOctant(int x1, int y1, int x2, int y2) {
-		this.lineDesc(x2, y2, x1, y1);
-	}
-
 }

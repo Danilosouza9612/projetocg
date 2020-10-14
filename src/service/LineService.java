@@ -40,5 +40,9 @@ public class LineService {
 	public void setOriginalLine(boolean originalLine) {
 		AppConfig.getInstance().setOriginalLine(originalLine);
 	}
+	
+	public void setMessLength(int messLength) {
+		AppConfig.getInstance().setMessLength(messLength);
+	}
 }
 

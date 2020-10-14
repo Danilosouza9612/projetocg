@@ -45,6 +45,7 @@ public class Window extends JFrame {
 	private JButton changeMeshButton;
 
 	public Window() {
+		setTitle("Rasterizador de Reta");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 650);
 		contentPane = new JPanel();
@@ -171,8 +172,14 @@ public class Window extends JFrame {
 	public void buildChangeMeshButton() {
 		changeMeshButton = new JButton("Alterar");
 		changeMeshButton.addActionListener((ActionEvent e)->{
-			AppConfig.getInstance().setMessLength(Integer.parseInt(meshLengthTextBox.getText()));
-			rebuildGLCanvas();
+			try {
+				LineService.getInstance().setMessLength(Integer.parseInt(meshLengthTextBox.getText()));
+				rebuildGLCanvas();
+			}catch(java.lang.NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Valor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+			}catch(IllegalArgumentException ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		});
 		changeMeshButton.setBounds(117, 410, 101, 23);
 		panel.add(changeMeshButton);

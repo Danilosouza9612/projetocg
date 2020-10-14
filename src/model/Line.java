@@ -61,12 +61,12 @@ public class Line {
 			@Override
 			public int compare(LineAlgorithm o1, LineAlgorithm o2) {
 				if(o1.getOrder()>o2.getOrder()) {
-					return -1;
+					return 1;
 				}
 				if(o1.getOrder()==o2.getOrder()) {
 					return 0;
 				}
-				return 1;
+				return -1;
 			}
 		});
 	}

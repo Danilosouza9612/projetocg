@@ -58,10 +58,9 @@ public class Renderer implements GLEventListener {
 	public void init(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2();
 		AppConfig appConfig = AppConfig.getInstance();
-		System.out.println(appConfig.getMessLength());
 		gl.glViewport(0, 0, appConfig.getViewPortWidth(), appConfig.getViewPortHeight());
 		gl.glClearColor(1, 1, 1, 0);
-		gl.glOrtho(0, appConfig.getMessLength(), 0, appConfig.getMessLength(), -1, 1);
+		gl.glOrtho(0, appConfig.getLastMesh(), 0, appConfig.getLastMesh(), 0, 1);
 	}
 	
 	@Override
@@ -70,20 +69,21 @@ public class Renderer implements GLEventListener {
 	
 	public void drawMalha(GL2 gl) {
 		AppConfig appConfig = AppConfig.getInstance();
-		for(int i=0; i<appConfig.getMessLength(); i++) {
+		gl.glColor3f(0.8f,0.8f,0.8f);
+		for(int i=0; i<=appConfig.getLastMesh(); i++) {
 			gl.glBegin(GL2.GL_LINES);
 			gl.glColor3f(0.8f,0.8f,0.8f);
 			gl.glVertex2d(i, 0);
 			gl.glColor3f(0.8f,0.8f,0.8f);
-			gl.glVertex2d(i, appConfig.getMessLength());
+			gl.glVertex2d(i, appConfig.getLastMesh());
 			gl.glEnd();
 		}
-		for(int i=0; i<appConfig.getMessLength(); i++) {
+		for(int i=0; i<=appConfig.getLastMesh(); i++) {
 			gl.glBegin(GL2.GL_LINES);
 			gl.glColor3f(0.8f,0.8f,0.8f);
 			gl.glVertex2d(0, i);
 			gl.glColor3f(0.8f,0.8f,0.8f);
-			gl.glVertex2d(appConfig.getMessLength(), i);
+			gl.glVertex2d(appConfig.getLastMesh(), i);
 			gl.glEnd();
 		}
 	}

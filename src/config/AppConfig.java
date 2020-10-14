@@ -43,6 +43,9 @@ public class AppConfig {
 	}
 	
 	public void setMessLength(int messLength) {
+		if(messLength<=0) {
+			throw new IllegalArgumentException("O tamanho da malha deverá ser maior que zero");
+		}
 		this.messLength = messLength;
 	}
 
@@ -54,11 +57,15 @@ public class AppConfig {
 		this.originalLine = originalLine;
 	}
 	
+	public int getLastMesh() {
+		return messLength-1;
+	}
+	
 	public int getViewPortWidth() {
-		return 20 * messLength;
+		return 20 * this.getLastMesh();
 	}
 	
 	public int getViewPortHeight() {
-		return 20 * messLength;
+		return 20 * this.getLastMesh();
 	}
 }
