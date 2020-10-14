@@ -1,6 +1,4 @@
-package main;
-
-import java.awt.EventQueue;
+package view;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +9,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 
 import config.AppConfig;
+import renderer.Renderer;
 
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
@@ -21,20 +20,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
-import java.awt.SystemColor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import javax.swing.JSpinner;
 
-public class Test extends JFrame {
+public class Window extends JFrame {
 
+	private JPanel panel;
 	private JPanel contentPane;
 	private JPanel GLPanel;
-	private JTextField x0Field;
-	private JTextField y0Field;
-	private JTextField x1Field;
-	private JTextField y1Field;
 	private JCheckBox showMeshCheckbox;
 	private GLCanvas glCanvas;
 	private JTextField meshLengthTextBox;
@@ -42,72 +37,54 @@ public class Test extends JFrame {
 	private JCheckBox pontoMedioCheckBox;
 	private JCheckBox equacaoExplicitaCheckBox;
 	private JCheckBox originalLineCheckBox;
-	private JScrollPane scrollPane;
+	private JButton drawButton;
+	private JSpinner x0Field;
+	private JSpinner x1Field;
+	private JSpinner y0Field;
+	private JSpinner y1Field;
+	private JButton changeMeshButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Test frame = new Test();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Test() {
-		setResizable(false);
+	public Window() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 650);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(5, 5, 248, 611);
-		panel.setMinimumSize(new Dimension(300,611));
-		contentPane.add(panel);
+		this.buildPanel();
+		this.buildLabels();
+		this.buildSpinners();
+		this.buildDrawButton();
+		this.buildMeshCheckBox();
+		this.buildMeshLengthCheckBox();
+		this.buildAlgorithmsCheckBoxes();
+		this.buildOriginalLineCheckBox();
+		this.buildChangeMeshButton();
+		this.buildGLanvas();
+		
+		this.glCanvas = this.buildGLCanvas();
+		GLPanel.add(glCanvas);
+	}
+	
+	public void buildPanel() {
+		panel = new JPanel();
+		contentPane.add(panel, BorderLayout.WEST);
+		panel.setPreferredSize(new Dimension(250, contentPane.getPreferredSize().height));
 		panel.setLayout(null);
-		
-		x0Field = new JTextField();
-		x0Field.setBounds(36, 60, 67, 20);
-		panel.add(x0Field);
-		x0Field.setColumns(10);
-		
-		y0Field = new JTextField();
-		y0Field.setColumns(10);
-		y0Field.setBounds(151, 60, 67, 20);
-		panel.add(y0Field);
-		
+	}
+	
+	public void buildLabels() {
 		JLabel lblNewLabel = new JLabel("X0:");
 		lblNewLabel.setBounds(10, 63, 29, 14);
 		panel.add(lblNewLabel);
 		
 		JLabel lblY = new JLabel("Y0:");
-		lblY.setBounds(110, 63, 29, 14);
+		lblY.setBounds(112, 63, 29, 14);
 		panel.add(lblY);
 		
-		x1Field = new JTextField();
-		x1Field.setColumns(10);
-		x1Field.setBounds(36, 132, 67, 20);
-		panel.add(x1Field);
-		
-		y1Field = new JTextField();
-		y1Field.setColumns(10);
-		y1Field.setBounds(151, 132, 67, 20);
-		panel.add(y1Field);
-		
 		JLabel lblY_2 = new JLabel("Y1:");
-		lblY_2.setBounds(112, 135, 27, 14);
+		lblY_2.setBounds(114, 135, 27, 14);
 		panel.add(lblY_2);
 		
 		JLabel lblX = new JLabel("X1:");
@@ -122,10 +99,57 @@ public class Test extends JFrame {
 		lblNewLabel_2.setBounds(10, 107, 90, 14);
 		panel.add(lblNewLabel_2);
 		
-		JButton drawButton = new JButton("Desenhar");
+		JLabel lblNewLabel_3 = new JLabel("Tamanho da Malha");
+		lblNewLabel_3.setBounds(10, 386, 113, 14);
+		panel.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Algoritmos Escolhidos:");
+		lblNewLabel_4.setBounds(10, 215, 208, 14);
+		panel.add(lblNewLabel_4);
+	}
+	
+	public void buildDrawButton() {
+		drawButton = new JButton("Desenhar");
 		drawButton.setBounds(53, 326, 129, 23);
 		panel.add(drawButton);
 		
+		drawButton.addActionListener((ActionEvent e)->{
+			try {
+				LineService.getInstance().draw(
+						Integer.parseInt(x0Field.getValue().toString()), 
+						Integer.parseInt(y0Field.getValue().toString()),
+						Integer.parseInt(x1Field.getValue().toString()), 
+						Integer.parseInt(y1Field.getValue().toString()),
+						ddaCheckBox.isSelected(),
+						pontoMedioCheckBox.isSelected(),
+						equacaoExplicitaCheckBox.isSelected()
+				);
+				glCanvas.repaint();
+			}catch(IllegalArgumentException exception) {
+				JOptionPane.showMessageDialog(null, exception.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+	
+	public void buildSpinners() {
+		x0Field = new JSpinner();
+		x0Field.setBounds(36, 60, 67, 20);
+		panel.add(x0Field);
+		
+		y0Field = new JSpinner();
+		y0Field.setBounds(149, 60, 69, 20);
+		panel.add(y0Field);
+		
+		x1Field = new JSpinner();
+		x1Field.setBounds(36, 132, 66, 20);
+		panel.add(x1Field);
+		
+		y1Field = new JSpinner();
+		y1Field.setBounds(149, 132, 69, 20);
+		panel.add(y1Field);
+	}
+	
+	public void buildMeshCheckBox() {
 		showMeshCheckbox = new JCheckBox("Mostrar malha de pixels");
 		showMeshCheckbox.setSelected(true);
 		showMeshCheckbox.setBounds(10, 356, 211, 23);
@@ -133,32 +157,28 @@ public class Test extends JFrame {
 			LineService.getInstance().setShowMess(showMeshCheckbox.isSelected());
 			glCanvas.display();
 		});
-
-		
 		panel.add(showMeshCheckbox);
-		
+	}
+	
+	public void buildMeshLengthCheckBox() {
 		meshLengthTextBox = new JTextField();
 		meshLengthTextBox.setBounds(10, 411, 96, 20);
 		panel.add(meshLengthTextBox);
 		meshLengthTextBox.setColumns(10);
 		meshLengthTextBox.setText(Integer.toString(AppConfig.getInstance().getMessLength()));
-		
-		JLabel lblNewLabel_3 = new JLabel("Tamanho da Malha");
-		lblNewLabel_3.setBounds(10, 386, 113, 14);
-		panel.add(lblNewLabel_3);
-		
-		JButton changeMeshButton = new JButton("Alterar");
+	}
+	
+	public void buildChangeMeshButton() {
+		changeMeshButton = new JButton("Alterar");
 		changeMeshButton.addActionListener((ActionEvent e)->{
 			AppConfig.getInstance().setMessLength(Integer.parseInt(meshLengthTextBox.getText()));
 			rebuildGLCanvas();
 		});
 		changeMeshButton.setBounds(117, 410, 101, 23);
 		panel.add(changeMeshButton);
-		
-		JLabel lblNewLabel_4 = new JLabel("Algoritmos Escolhidos:");
-		lblNewLabel_4.setBounds(10, 215, 208, 14);
-		panel.add(lblNewLabel_4);
-		
+	}
+	
+	public void buildAlgorithmsCheckBoxes() {
 		ddaCheckBox = new JCheckBox("DDA");
 		ddaCheckBox.setBounds(10, 240, 206, 23);
 		panel.add(ddaCheckBox);
@@ -170,7 +190,9 @@ public class Test extends JFrame {
 		equacaoExplicitaCheckBox = new JCheckBox("Equa\u00E7\u00E3o Expl\u00EDcita");
 		equacaoExplicitaCheckBox.setBounds(10, 292, 206, 23);
 		panel.add(equacaoExplicitaCheckBox);
-		
+	}
+	
+	public void buildOriginalLineCheckBox() {
 		originalLineCheckBox = new JCheckBox("Mostrar Linha Original");
 		originalLineCheckBox.setBounds(10, 174, 174, 23);
 		originalLineCheckBox.addActionListener((ActionEvent e)->{
@@ -178,30 +200,13 @@ public class Test extends JFrame {
 			glCanvas.display();
 		});
 		panel.add(originalLineCheckBox);
-		drawButton.addActionListener((ActionEvent e)->{
-			try {
-				LineService.getInstance().draw(
-						Integer.parseInt(x0Field.getText()), 
-						Integer.parseInt(y0Field.getText()),
-						Integer.parseInt(x1Field.getText()), 
-						Integer.parseInt(y1Field.getText()),
-						ddaCheckBox.isSelected(),
-						pontoMedioCheckBox.isSelected(),
-						equacaoExplicitaCheckBox.isSelected()
-				);
-				glCanvas.repaint();
-			}catch(IllegalArgumentException exception) {
-				JOptionPane.showMessageDialog(null, exception.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-			}
-		});
-		
+	}
+	
+	public void buildGLanvas() {
 		GLPanel = new JPanel();
-		GLPanel.setBounds(252, 5, 761, 611);
 		GLPanel.setBackground(Color.GRAY);
-		contentPane.add(GLPanel);
-		
-		this.glCanvas = this.buildGLCanvas();
-		GLPanel.add(glCanvas);
+		contentPane.add(GLPanel, BorderLayout.CENTER);
+		GLPanel.setLayout(null);
 	}
 	
 	public final GLCanvas buildGLCanvas() {
@@ -210,6 +215,7 @@ public class Test extends JFrame {
 	    GLCapabilities capabilities = new GLCapabilities(profile);
 	    
 	    GLCanvas glCanvas = new GLCanvas(capabilities);
+	    glCanvas.setBounds(0, 0, 0, 0);
 	    Renderer renderer = new Renderer();
 	    glCanvas.addGLEventListener(renderer);
 	    glCanvas.setSize(AppConfig.getInstance().getViewPortWidth(), AppConfig.getInstance().getViewPortHeight()); //Quando forem mexer no design, comente essa linha pois o Design não pega com o GLCanvas com size definido

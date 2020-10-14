@@ -25,11 +25,8 @@ public class PontoMedio extends OctantLineAlgorithm{
 		x=x1;
 		y=y1;
 		
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
-		while(x<x2) {
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(x, y);
+		while(x<=x2) {
+			this.drawCircle(x, y);
 			if(d<0) {
 				d = d + incrE;
 				x++;
@@ -39,9 +36,6 @@ public class PontoMedio extends OctantLineAlgorithm{
 				y++;
 			}
 		}
-		this.gl.glVertex2d(x, y);
-		this.gl.glEnd();
-		this.gl.glFlush();
 
 	}
 	
@@ -58,11 +52,8 @@ public class PontoMedio extends OctantLineAlgorithm{
 		x=x1;
 		y=y1;
 		
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
-		while(x<x2) {
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(y, x);
+		while(x<=x2) {
+			this.drawCircle(y, x);
 			if(d<0) {
 				d = d + incrE;
 				x++;
@@ -72,9 +63,6 @@ public class PontoMedio extends OctantLineAlgorithm{
 				y++;
 			}
 		}
-		this.gl.glVertex2d(y, x);
-		this.gl.glEnd();
-		this.gl.glFlush();
 	}
 	
 	private void pontoMedioDescFunctionX(int x1, int y1, int x2, int y2) {
@@ -91,11 +79,8 @@ public class PontoMedio extends OctantLineAlgorithm{
 		x=x1;
 		y=y1;
 		
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
-		while(x<x2) {
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(y, x);
+		while(x<=x2) {
+			this.drawCircle(y, x);
 			if(d>=0) {
 				d = d + incrNE;
 				x++;
@@ -105,9 +90,6 @@ public class PontoMedio extends OctantLineAlgorithm{
 				y--;
 			}
 		}
-		this.gl.glVertex2f(y, x);
-		this.gl.glEnd();
-		this.gl.glFlush();
 	}
 	
 	private void pontoMedioDesc(int x1, int y1, int x2, int y2) {
@@ -124,11 +106,8 @@ public class PontoMedio extends OctantLineAlgorithm{
 		x=x1;
 		y=y1;
 		
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
-		while(x<x2) {
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(x, y);
+		while(x<=x2) {
+			this.drawCircle(x, y);
 			if(d>=0) {
 				d = d + incrNE;
 				x++;
@@ -138,9 +117,6 @@ public class PontoMedio extends OctantLineAlgorithm{
 				y--;
 			}
 		}
-		this.gl.glVertex2d(x, y);
-		this.gl.glEnd();
-		this.gl.glFlush();
 	}
 
 	@Override

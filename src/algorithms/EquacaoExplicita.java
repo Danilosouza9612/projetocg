@@ -24,17 +24,12 @@ public class EquacaoExplicita extends OctantLineAlgorithm{
 		dy = y2 - y1;
 		m = (float)dy/dx;
 		x = x1;
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
 		while(x <= x2) {
 			y = m * (x - x1) + y1;
 			y_aux = Math.round(y);
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(x, y_aux);
+			this.drawCircle(Math.round(x), Math.round(y_aux));
 			x++;
 		}
-		this.gl.glEnd();
-		this.gl.glFlush();
 	}
 	
 	public void lineFunctionX(int x1,int y1, int x2,int y2) {
@@ -47,17 +42,12 @@ public class EquacaoExplicita extends OctantLineAlgorithm{
 		dy = y2 - y1;
 		m = (float)dy/dx;
 		x = x1;
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
 		while(x <= x2) {
 			y = m * (x - x1) + y1;
 			y_aux = Math.round(y);
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(y_aux, x);
+			this.drawCircle(Math.round(y_aux), Math.round(x));
 			x++;
 		}
-		this.gl.glEnd();
-		this.gl.glFlush();
 	}
 
 	@Override

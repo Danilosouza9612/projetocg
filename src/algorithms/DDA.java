@@ -28,17 +28,11 @@ public class DDA extends OctantLineAlgorithm{
 		float yInc = (float) dy / (float) steps;
 		float x = x1;
 		float y = y1;
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
-		for(int k = 1; k <= steps; k++) {
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(Math.round(x), Math.round(y));
+		for(int k = 0; k <= steps; k++) {
+			this.drawCircle(Math.round(x), Math.round(y));
 			x += xInc;
 			y += yInc;
 		}
-		this.gl.glVertex2d(x, y);
-		this.gl.glEnd();
-		this.gl.glFlush();
 	}
 	
 	public void lineDesc(int x1, int y1, int x2, int y2) {
@@ -71,17 +65,11 @@ public class DDA extends OctantLineAlgorithm{
 		float yInc = (float) dy / (float) steps;
 		float x = x1;
 		float y = y1;
-		this.gl.glPointSize(1.0f);
-		this.gl.glBegin(GL2.GL_POINTS);
-		for(int k = 1; k <= steps; k++) {
-			this.gl.glColor3f(this.color[0],this.color[1],this.color[2]);
-			this.gl.glVertex2d(Math.round(x), Math.round(y));
+		for(int k = 0; k <= steps; k++) {
+			this.drawCircle(Math.round(x), Math.round(y));
 			x += xInc;
 			y += yInc;
 		}
-		this.gl.glVertex2d(x, y);
-		this.gl.glEnd();
-		this.gl.glFlush();
 	}
 
 	@Override
