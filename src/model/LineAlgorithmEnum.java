@@ -1,13 +1,13 @@
 package model;
 
-public enum LineAlgorithm implements Comparable<LineAlgorithm>{
+public enum LineAlgorithmEnum implements Comparable<LineAlgorithmEnum>{
 	DDA(1),
 	PONTO_MEDIO(2),
 	EQUACAO_EXPLICITA(3);
 
 	private int order;
 	
-	LineAlgorithm(int i) {
+	LineAlgorithmEnum(int i) {
 		this.order = i;
 	}
 	

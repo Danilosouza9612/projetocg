@@ -1,7 +1,9 @@
 package service;
+
 import config.AppConfig;
-import model.Line;
-import model.LineAlgorithm;
+import model.LineAlgorithmEnum;
+import renderer.DrawEventQueue;
+import renderer.ReRenderDrawEvent;
 
 public class LineService {
 	private static LineService instance;
@@ -16,33 +18,33 @@ public class LineService {
 		return instance;
 	}
 	
-	public void draw(int x1, int y1, int x2, int y2, boolean drawDDA, boolean drawPontoMedio, boolean drawEquacao) {
-		Line line = new Line(x1, y1, x2, y2);
-		if(!drawDDA && !drawPontoMedio && !drawEquacao) {
-			throw new IllegalArgumentException("Selecione pelo menos um algoritmo de rasterização");
-		}
-		if(drawDDA) {
-			line.addAlgorithm(LineAlgorithm.DDA);
-		}
-		if(drawPontoMedio){
-			line.addAlgorithm(LineAlgorithm.PONTO_MEDIO);
-		}
-		if(drawEquacao) {
-			line.addAlgorithm(LineAlgorithm.EQUACAO_EXPLICITA);
-		}
-		AppConfig.getInstance().setLine(line);
+	public void setX1(int x1) {
+		AppConfig.getInstance().getOrCreateLine().setX1(x1);
+		DrawEventQueue.getInstance().enQueue(new ReRenderDrawEvent());
 	}
 	
-	public void setShowMess(boolean showMess) {
-		AppConfig.getInstance().setMess(showMess);
+	public void setX2(int x2) {
+		AppConfig.getInstance().getOrCreateLine().setX2(x2);
+		DrawEventQueue.getInstance().enQueue(new ReRenderDrawEvent());
 	}
 	
-	public void setOriginalLine(boolean originalLine) {
-		AppConfig.getInstance().setOriginalLine(originalLine);
+	public void setY1(int y1) {
+		AppConfig.getInstance().getOrCreateLine().setY1(y1);
+		DrawEventQueue.getInstance().enQueue(new ReRenderDrawEvent());
 	}
 	
-	public void setMessLength(int messLength) {
-		AppConfig.getInstance().setMessLength(messLength);
+	public void setY2(int y2) {
+		AppConfig.getInstance().getOrCreateLine().setY2(y2);
+		DrawEventQueue.getInstance().enQueue(new ReRenderDrawEvent());
+	}
+	
+	public void addLineAlgorithm(LineAlgorithmEnum lineAlgorithm) {
+		AppConfig.getInstance().getOrCreateLine().addAlgorithm(lineAlgorithm);
+		DrawEventQueue.getInstance().enQueue(new ReRenderDrawEvent());
+	}
+	
+	public void removeLineAlgorithm(LineAlgorithmEnum lineAlgorithm) {
+		AppConfig.getInstance().getOrCreateLine().removeAlgorithm(lineAlgorithm);
+		DrawEventQueue.getInstance().enQueue(new ReRenderDrawEvent());
 	}
 }
-

@@ -2,7 +2,7 @@ package config;
 
 import model.Line;
 
-public class AppConfig {
+public class AppConfig{
 	private static AppConfig instance;
 	
 	private boolean showMess;
@@ -38,6 +38,13 @@ public class AppConfig {
 		return this.line;
 	}
 	
+	public Line getOrCreateLine() {
+		if(line==null) {
+			this.line = new Line(0,0,0,0);
+		}
+		return this.line;
+	}
+	
 	public int getMessLength() {
 		return this.messLength;
 	}
@@ -61,11 +68,7 @@ public class AppConfig {
 		return messLength-1;
 	}
 	
-	public int getViewPortWidth() {
-		return 20 * this.getLastMesh();
-	}
-	
-	public int getViewPortHeight() {
+	public int getMeshSize() {
 		return 20 * this.getLastMesh();
 	}
 }

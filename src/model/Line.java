@@ -9,14 +9,14 @@ public class Line {
 	private int x2;
 	private int y1;
 	private int y2;
-	private List<LineAlgorithm> algorithms;
+	private List<LineAlgorithmEnum> algorithms;
 	
 	public Line(int x1, int y1, int x2, int y2) {
 		this.x1=x1;
 		this.y1=y1;
 		this.x2=x2;
 		this.y2=y2;
-		this.algorithms = new ArrayList<LineAlgorithm>();
+		this.algorithms = new ArrayList<LineAlgorithmEnum>();
 	}
 
 	public int getX1() {
@@ -51,15 +51,15 @@ public class Line {
 		this.y2 = y2;
 	}
 
-	public List<LineAlgorithm> getAlgorithms() {
+	public List<LineAlgorithmEnum> getAlgorithms() {
 		return algorithms;
 	}
 	
-	public void addAlgorithm(LineAlgorithm algorithm) {
+	public void addAlgorithm(LineAlgorithmEnum algorithm) {
 		this.algorithms.add(algorithm);
-		this.algorithms.sort(new Comparator<LineAlgorithm>() {
+		this.algorithms.sort(new Comparator<LineAlgorithmEnum>() {
 			@Override
-			public int compare(LineAlgorithm o1, LineAlgorithm o2) {
+			public int compare(LineAlgorithmEnum o1, LineAlgorithmEnum o2) {
 				if(o1.getOrder()>o2.getOrder()) {
 					return 1;
 				}
@@ -69,5 +69,9 @@ public class Line {
 				return -1;
 			}
 		});
+	}
+	
+	public void removeAlgorithm(LineAlgorithmEnum algorithm) {
+		this.algorithms.remove(algorithm);
 	}
 }

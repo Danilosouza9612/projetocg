@@ -19,5 +19,6 @@ public class FunctionYCircleDrawer extends CircleDrawer{
 	    	gl.glVertex2d(x + raio*Math.cos(i*2*PI/lados), y + raio*Math.sin(i*2*PI/lados));
 	    }
 	    gl.glEnd();
+	    gl.glFlush();
 	}
 }
