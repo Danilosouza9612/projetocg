@@ -2,8 +2,7 @@ package renderer;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLEventListener;
-import config.AppConfig;
-
+import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.GLAutoDrawable;
 
 public class Renderer implements GLEventListener {
@@ -25,11 +24,16 @@ public class Renderer implements GLEventListener {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2();
-		AppConfig appConfig = AppConfig.getInstance();
-		gl.glClearColor(1, 1, 1, 0);
-		gl.glOrtho(0, appConfig.getLastMesh(), 0, appConfig.getLastMesh(), 0, 1);
+		GLU glu = new GLU();
 		gl.glViewport(0, 0, 400, 400);
-		DrawEventQueue.getInstance().enQueueNotNotify(new ReRenderDrawEvent());
+		gl.glClearColor(1, 1, 1, 0);
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		// define projeção perspectiva. Deve ser colocado ANTES do gluLookAt
+		glu.gluPerspective(30,1,1,1000);
+		// Define a posição do observador no cenário 3D
+		glu.gluLookAt(-10,10,-30, 0,0,29, 0,1,0);
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		DrawEventQueue.getInstance().enQueueNotNotify(new Test3D());
 	}
 	
 	@Override
