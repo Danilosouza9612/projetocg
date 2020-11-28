@@ -11,9 +11,9 @@ public abstract class Transformation {
 	}
 	
 	public float[][] transform(float[][] points){
-	    System.out.println(points.length+" "+points[0].length);
 		return MatrixHelper.multiplyMatrices(this.getTransformationMatrix(), points);
 	}
+	
 	public int getId() {
 		return this.id;
 	}
@@ -29,6 +29,8 @@ public abstract class Transformation {
 	public int hashCode() {
 		return 0;
 	}
+	
 	public abstract float[][] getTransformationMatrix();
-
+	public abstract Transformation inverseTransformation();
+	public abstract String toString();
 }

@@ -13,7 +13,6 @@ public class Composite extends Transformation{
 	
 	@Override
 	public float[][] getTransformationMatrix() {
-		// TODO Auto-generated method stub
 		float[][] mat = MatrixHelper.identityMatrix(4);
 		while(!this.transformations.end()) {
 			mat = MatrixHelper.multiplyMatrices(mat, transformations.pop().getTransformationMatrix());
@@ -30,4 +29,18 @@ public class Composite extends Transformation{
 		this.transformations.remove(transformation);
 	}
 
+	@Override
+	public Transformation inverseTransformation() {
+		Composite composite = new Composite();
+		while(!this.transformations.end()) {
+			composite.addTransformation(this.transformations.pop().inverseTransformation());
+		}
+		this.transformations.resetPos();
+		return composite;
+	}
+
+	@Override
+	public String toString() {
+		return "Composta";
+	}
 }
