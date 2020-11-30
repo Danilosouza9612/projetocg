@@ -23,6 +23,10 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 
 public class Window extends JFrame implements Observer{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel panel;
 	private JPanel contentPane;
 	private JPanel GLPanel;

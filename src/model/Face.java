@@ -47,7 +47,7 @@ public class Face {
 	}
 	
 	public void draw(GL2 gl, List<float[]> vertexCoord, List<float[]> normalCoord) {
-		float[] color = {0.2f, 0.7f, 0.3f, 1};
+		float[] color = {0.2f, 0.7f, 0.3f, 0.5f};
 		float[] point, normalPoint;
 	    gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT_AND_DIFFUSE, color, 0);
 		gl.glBegin(GL2.GL_QUADS);

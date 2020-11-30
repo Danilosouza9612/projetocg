@@ -4,11 +4,7 @@ import com.jogamp.opengl.GL2;
 
 import model.AppState;
 import model.Composite;
-import model.CubeDrawing;
 import model.Drawing;
-import model.ObjDrawing;
-import model.Scale;
-import model.Transformation;
 
 public class Test3D implements DrawEvent{
 	@Override
@@ -29,7 +25,7 @@ public class Test3D implements DrawEvent{
 		Composite composite = AppState.getInstance().getTransformation();
 		Drawing drawing = AppState.getInstance().getDrawing();
 		drawing.init();
-		drawing.applyTransform(composite);
+		//drawing.applyTransform(composite);
 		drawing.draw(gl);
 	}
 	
@@ -85,20 +81,20 @@ public class Test3D implements DrawEvent{
 		AppState appState = AppState.getInstance();
 	    gl.glDisable(GL2.GL_LIGHTING);
 	    gl.glDisable(GL2.GL_LIGHT0);
-		for(int i=-100; i<100; i++) {
+		for(int i=-15; i<15; i++) {
 			if(i==0 && appState.isShowAxis()) i++;
 			gl.glBegin(GL2.GL_LINE_LOOP);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(-100, 0, i);
+			gl.glVertex3d(-15, 0, i);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(100, 0, i);
+			gl.glVertex3d(14, 0, i);
 			gl.glEnd();
 			
 			gl.glBegin(GL2.GL_LINE_LOOP);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(i, 0, -100);
+			gl.glVertex3d(i, 0, -15);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(i, 0, 100);
+			gl.glVertex3d(i, 0, 14);
 			gl.glEnd();
 		}
 	    gl.glEnable(GL2.GL_LIGHTING);

@@ -7,6 +7,7 @@ import com.jogamp.opengl.GL2;
 
 public abstract class Drawing {
 	protected List<float[]> vertices;
+	protected List<float[]> originalVertices;
 	protected List<float[]> normals;
 	protected List<Face> faces;
 	protected boolean initialized;
@@ -15,6 +16,7 @@ public abstract class Drawing {
 		this.vertices = new ArrayList<float[]>();
 		this.normals = new ArrayList<float[]>();
 		this.faces = new ArrayList<Face>();
+		this.originalVertices = new ArrayList<float[]>();
 	}
 	
 	public float[][] getVertexPointsMatrix() {
@@ -59,7 +61,8 @@ public abstract class Drawing {
 	}
 	
 	protected void initVertices(float[][] vertices) {
-		this.initPointers(this.vertices, vertices);
+		this.initPointers(this.originalVertices, vertices);
+		this.vertices = this.originalVertices;
 	}
 	
 	protected void initNormals(float[][] normals) {

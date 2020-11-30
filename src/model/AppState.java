@@ -12,6 +12,7 @@ public class AppState implements Observable{
 	private Composite transformations;
 	private Drawing drawing;
 	private Observer observer;
+	private UserView userView;
 	
 	private AppState() {
 		this.showXZGrid = true;
@@ -19,7 +20,8 @@ public class AppState implements Observable{
 		composite.addTransformation(new Scale(2,2,2));
 		composite.addTransformation(new Scale(1,1,2));
 		this.transformations = composite;
-		this.drawing = new ObjDrawing("src\\esfera.obj");
+		this.drawing = new CubeDrawing();
+		this.userView = new UserView();
 	}
 	
 	public static AppState getInstance() {
@@ -93,9 +95,29 @@ public class AppState implements Observable{
 	public void setDrawing(Drawing drawing) {
 		this.drawing = drawing;
 	}
+	
+	
+	public UserView getUserView() {
+		return userView;
+	}
+	
+	public void rotateX(int deg) {
+		this.userView.rotateX(-deg/16);
+		this.notificar();
+	}
+	
+	public void rotateY(int deg) {
+		this.userView.rotateY(-deg/16);
+		this.notificar();
+	}
+
+	public void setUserView(UserView userView) {
+		this.userView = userView;
+	}
 
 	@Override
 	public void notificar() {
-		this.observer.atualizar();
+		if(this.observer !=null)
+			this.observer.atualizar();
 	}
 }

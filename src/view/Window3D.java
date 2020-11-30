@@ -11,10 +11,14 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 
+import model.AppState;
+import pattern.observer.Observer;
 import renderer.Renderer;
 
-public class Window3D extends JFrame{
+public class Window3D extends JFrame implements Observer{
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private GLCanvas glCanvas;
 	
 	public Window3D() {
 		setResizable(false);
@@ -26,7 +30,9 @@ public class Window3D extends JFrame{
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(this.buildGLCanvas());
+		this.glCanvas = this.buildGLCanvas();
+		contentPane.add(this.glCanvas);
+		AppState.getInstance().setObserver(this);
 	}
 	
 	public final GLCanvas buildGLCanvas() {
@@ -36,9 +42,15 @@ public class Window3D extends JFrame{
 	    
 	    GLCanvas glCanvas = new GLCanvas(capabilities);
 	    Renderer renderer = new Renderer();
+	    glCanvas.addMouseListener(new GLCanvasMouseEvent());
 	    glCanvas.addGLEventListener(renderer);
 	    glCanvas.setSize(new Dimension(600,600)); //Quando forem mexer no design, comente essa linha pois o Design não pega com o GLCanvas com size definido
 	    
 	    return glCanvas;
+	}
+
+	@Override
+	public void atualizar() {
+		this.glCanvas.display();
 	}
 }
