@@ -1,10 +1,5 @@
 package model;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
-import helper.TestHelpers;
-
 public class RotateX extends Transformation{
 	private float[][] mat;
 	
@@ -41,7 +36,6 @@ public class RotateX extends Transformation{
 			mat[2][1] = (float) Math.sin(rad);
 			mat[2][2] = (float) Math.cos(rad);
 		}
-		TestHelpers.printMatrix(mat);
 	}
 	
 	@Override

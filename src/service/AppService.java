@@ -1,10 +1,16 @@
-package model;
+package service;
 
+import model.Composite;
+import model.Drawing;
+import model.ObjDrawing;
+import model.TransformCallBack;
+import model.TransformCallBackFactory;
+import model.UserView;
 import pattern.observer.Observable;
 import pattern.observer.Observer;
 
-public class AppState implements Observable{
-	private static AppState instance;
+public class AppService implements Observable{
+	private static AppService instance;
 	private boolean showXZGrid;
 	private boolean showYZgrid;
 	private boolean showXYgrid;
@@ -14,18 +20,16 @@ public class AppState implements Observable{
 	private Observer observer;
 	private UserView userView;
 	
-	private AppState() {
+	private AppService() {
+		TransformCallBackFactory factory = new TransformCallBackFactory();
 		this.showXZGrid = true;
-		Composite composite = new Composite();
-		composite.addTransformation(new Scale(2,2,2));
-		composite.addTransformation(new Scale(1,1,2));
-		this.transformations = composite;
-		this.drawing = new CubeDrawing();
+		this.showAxis = true;
+		this.drawing = new ObjDrawing("src//diverso.obj");
 		this.userView = new UserView();
 	}
 	
-	public static AppState getInstance() {
-		if(instance==null) instance = new AppState();
+	public static AppService getInstance() {
+		if(instance==null) instance = new AppService();
 		return instance;
 	}
 	
@@ -60,13 +64,8 @@ public class AppState implements Observable{
 		return this.transformations;
 	}
 	
-	public void addTransformation(Transformation transformation) {
-		this.transformations.addTransformation(transformation);
-		this.notificar();
-	}
-	
-	public void removeTransformation(Transformation transformation) {
-		this.transformations.removeTransformation(transformation);
+	public void addTransformation(TransformCallBack transformation) {
+		this.drawing.addTransform(transformation);
 		this.notificar();
 	}
 
@@ -94,20 +93,30 @@ public class AppState implements Observable{
 
 	public void setDrawing(Drawing drawing) {
 		this.drawing = drawing;
+		this.notificar();
 	}
 	
+	public void setOriginal(boolean value) {
+		this.drawing.setShowOriginal(value);
+		this.notificar();
+	}
 	
 	public UserView getUserView() {
 		return userView;
 	}
 	
 	public void rotateX(int deg) {
-		this.userView.rotateX(-deg/16);
+		this.userView.rotateX(deg);
 		this.notificar();
 	}
 	
 	public void rotateY(int deg) {
-		this.userView.rotateY(-deg/16);
+		this.userView.rotateY(deg);
+		this.notificar();
+	}
+	
+	public void zoom(int deg) {
+		this.userView.zoom(deg);
 		this.notificar();
 	}
 

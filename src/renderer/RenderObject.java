@@ -2,14 +2,14 @@ package renderer;
 
 import com.jogamp.opengl.GL2;
 
-import model.AppState;
 import model.Composite;
 import model.Drawing;
+import service.AppService;
 
-public class Test3D implements DrawEvent{
+public class RenderObject implements DrawEvent{
 	@Override
 	public void draw(GL2 gl) {
-		AppState appState = AppState.getInstance();
+		AppService appState = AppService.getInstance();
 		if(appState.isShowXYgrid()) {
 			this.drawXYMesh(gl);
 		}
@@ -22,55 +22,61 @@ public class Test3D implements DrawEvent{
 		if(appState.isShowAxis()) {
 			this.drawAxis(gl);
 		}
-		Composite composite = AppState.getInstance().getTransformation();
-		Drawing drawing = AppState.getInstance().getDrawing();
+		Composite composite = AppService.getInstance().getTransformation();
+		Drawing drawing = AppService.getInstance().getDrawing();
 		drawing.init();
 		//drawing.applyTransform(composite);
 		drawing.draw(gl);
 	}
 	
 	public void drawAxis(GL2 gl) {
+	    gl.glDisable(GL2.GL_LIGHTING);
+	    gl.glDisable(GL2.GL_LIGHT0);
+		
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		gl.glVertex3d(-100, 0, 0);
+		gl.glVertex3d(-15, 0, 0);
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		gl.glVertex3d(100, 0, 0);
+		gl.glVertex3d(14, 0, 0);
 		gl.glEnd();
 
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
-		gl.glVertex3d(0, -100, 0);
+		gl.glVertex3d(0, -15, 0);
 		gl.glColor3f(0.0f, 1.0f, 0.0f);
-		gl.glVertex3d(0, 100, 0);
+		gl.glVertex3d(0, 14, 0);
 		gl.glEnd();
 		
 		gl.glBegin(GL2.GL_LINE_LOOP);
 		gl.glColor3f(0.0f, 0.0f, 1.0f);
-		gl.glVertex3d(0, 0, -100);
+		gl.glVertex3d(0, 0, -15);
 		gl.glColor3f(0.0f, 0.0f, 1.0f);
-		gl.glVertex3d(0, 0, 100);
+		gl.glVertex3d(0, 0, 14);
 		gl.glEnd();
+		
+	    gl.glEnable(GL2.GL_LIGHTING);
+	    gl.glEnable(GL2.GL_LIGHT0);
 		
 	}
 	
 	public void drawXYMesh(GL2 gl) {
-		AppState appState = AppState.getInstance();
+		AppService appState = AppService.getInstance();
 	    gl.glDisable(GL2.GL_LIGHTING);
 	    gl.glDisable(GL2.GL_LIGHT0);
-		for(int i=-100; i<100; i++) {
+		for(int i=-15; i<15; i++) {
 			if(i==0 && appState.isShowAxis()) i++;
 			gl.glBegin(GL2.GL_LINE_LOOP);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(-100, i, 0);
+			gl.glVertex3d(-15, i, 0);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(100, i, 0);
+			gl.glVertex3d(14, i, 0);
 			gl.glEnd();
 			
 			gl.glBegin(GL2.GL_LINE_LOOP);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(i, -100, 0);
+			gl.glVertex3d(i, -15, 0);
 			gl.glColor3f(0.4f, 0.4f, 0.4f);
-			gl.glVertex3d(i, 100, 0);
+			gl.glVertex3d(i, 14, 0);
 			gl.glEnd();
 		}
 	    gl.glEnable(GL2.GL_LIGHTING);
@@ -78,7 +84,7 @@ public class Test3D implements DrawEvent{
 	}
 	
 	public void drawXZMesh(GL2 gl) {
-		AppState appState = AppState.getInstance();
+		AppService appState = AppService.getInstance();
 	    gl.glDisable(GL2.GL_LIGHTING);
 	    gl.glDisable(GL2.GL_LIGHT0);
 		for(int i=-15; i<15; i++) {
@@ -102,23 +108,23 @@ public class Test3D implements DrawEvent{
 	}
 	
 	public void drawYZMesh(GL2 gl) {
-		AppState appState = AppState.getInstance();
+		AppService appState = AppService.getInstance();
 	    gl.glDisable(GL2.GL_LIGHTING);
 	    gl.glDisable(GL2.GL_LIGHT0);
-		for(int i=-100; i<100; i++) {
+		for(int i=-15; i<15; i++) {
 			if(i==0 && appState.isShowAxis()) i++;
 			gl.glBegin(GL2.GL_LINE_LOOP);
 			gl.glColor3f(0.8f, 0.8f, 0.8f);
-			gl.glVertex3d(0, i, -100);
+			gl.glVertex3d(0, i, -15);
 			gl.glColor3f(0.8f, 0.8f, 0.8f);
-			gl.glVertex3d(0, i, 100);
+			gl.glVertex3d(0, i, 14);
 			gl.glEnd();
 			
 			gl.glBegin(GL2.GL_LINE_LOOP);
 			gl.glColor3f(0.8f, 0.8f, 0.8f);
-			gl.glVertex3d(0, -100, i);
+			gl.glVertex3d(0, -15, i);
 			gl.glColor3f(0.8f, 0.8f, 0.8f);
-			gl.glVertex3d(0, 100, i);
+			gl.glVertex3d(0, 14, i);
 			gl.glEnd();
 		}
 	    gl.glEnable(GL2.GL_LIGHTING);

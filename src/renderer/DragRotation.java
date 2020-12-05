@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.PointerInfo;
 import java.util.concurrent.Semaphore;
 
-import model.AppState;
+import service.AppService;
 
 public class DragRotation {
 	private static DragRotation instance;
@@ -32,27 +32,28 @@ public class DragRotation {
 	
 	public void drag() {
 		new Thread(()->{
-			AppState appState = AppState.getInstance();
+			AppService appState = AppService.getInstance();
 			PointerInfo pointerInfo;
 			Point point, tempPoint=MouseInfo.getPointerInfo().getLocation();
 			int dX, dY;
+			int tempX = (int) tempPoint.getX(), tempY = (int) tempPoint.getY();
 			while(dragRunning) {
 				pointerInfo = MouseInfo.getPointerInfo();
 				point = pointerInfo.getLocation();
-				if(point.getX()==tempPoint.getX()) {
+				if(point.getX()==tempX) {
 					this.iex = (int) point.getX();
 				}else {
 					dX = (int) (point.getX()-iex);
 					appState.rotateY(dX);
-					tempPoint=point;
+					tempX=(int) point.getX();
 				}
-				/*if(point.getY()==tempPoint.getY()) {
+				if(point.getY()==tempY) {
 					this.iey = (int) point.getY();
 				}else {
 					dY = (int) (point.getY()-iey);
 					appState.rotateX(dY);
-					tempPoint = point;
-				}*/
+					tempY=(int) point.getY();
+				}
 			}
 		}).start();
 	}

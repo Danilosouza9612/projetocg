@@ -10,13 +10,16 @@ public abstract class Drawing {
 	protected List<float[]> originalVertices;
 	protected List<float[]> normals;
 	protected List<Face> faces;
+	protected List<TransformCallBack> transforms;
 	protected boolean initialized;
+	protected boolean showOriginal;
 	
 	public Drawing() {
 		this.vertices = new ArrayList<float[]>();
 		this.normals = new ArrayList<float[]>();
 		this.faces = new ArrayList<Face>();
 		this.originalVertices = new ArrayList<float[]>();
+		this.transforms = new ArrayList<TransformCallBack>();
 	}
 	
 	public float[][] getVertexPointsMatrix() {
@@ -42,6 +45,10 @@ public abstract class Drawing {
 		}
 	}
 	
+	public void addTransform(TransformCallBack transformCallBack) {
+		this.transforms.add(transformCallBack);
+	}
+	
 	public void applyTransform(Transformation transformation){
 		float[][] mat = this.getVertexPointsMatrix();
 		mat = transformation.transform(mat);
@@ -49,6 +56,11 @@ public abstract class Drawing {
 	}
 	
 	public void draw(GL2 gl) {
+		if(!this.showOriginal) {
+			for(TransformCallBack item : transforms) {
+				item.execute(gl);
+			}
+		}
 		for(Face face : this.faces) {
 			face.draw(gl, this.vertices, this.normals);
 		}
@@ -81,5 +93,14 @@ public abstract class Drawing {
 			this.initialized = true;
 		}
 	}
+	
+	public boolean isShowOriginal() {
+		return showOriginal;
+	}
+
+	public void setShowOriginal(boolean showOriginal) {
+		this.showOriginal = showOriginal;
+	}
+
 	public abstract void initIfNotInitialized();
 }
