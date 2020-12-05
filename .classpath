@@ -6,18 +6,18 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Dell/Downloads/jogamp-all-platforms/jogamp-all-platforms/jar/gluegen-rt.jar">
+	<classpathentry kind="lib" path="C:/Users/Matheus/Documents/Matheus/Computação Gráfica/jogamp-all-platforms/jar/gluegen-rt.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="OpenGL/src/natives"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Dell/Downloads/jogamp-all-platforms/jogamp-all-platforms/jar/jogl-all.jar">
+	<classpathentry kind="lib" path="C:/Users/Matheus/Documents/Matheus/Computação Gráfica/jogamp-all-platforms/jar/jogl-all.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="OpenGL/src/natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jama/Jama-1.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Matheus/Documents/Matheus/Computação Gráfica/Jama-1.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
