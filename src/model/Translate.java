@@ -20,6 +20,5 @@ public class Translate {
 		float[][] points = drawing.getVertexPointsMatrix();
 		float[][] result = MatrixHelper.multiplyMatrices(this.matrix, points);
 		drawing.toVertexList(result);
-		System.out.println("Entrou");
 	}
 }

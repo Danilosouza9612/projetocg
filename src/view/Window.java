@@ -21,6 +21,9 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.DefaultComboBoxModel;
 
 public class Window extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
@@ -35,6 +38,11 @@ public class Window extends JFrame implements Observer{
 	private JTextField scaleZField;
 	private JTextField shearFieldA;
 	private JTextField shearFieldB;
+	private JTextField textField;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JComboBox comboBox;
+	private JFileChooser fc;
 	
 	public Window() {
 		setResizable(false);
@@ -46,6 +54,7 @@ public class Window extends JFrame implements Observer{
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		fc = new JFileChooser();
 		
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(300, 400));
@@ -334,11 +343,61 @@ public class Window extends JFrame implements Observer{
 		});
 		panel.add(xyReflexionButton);
 		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Cubo", "Pir\u00E2mide", "Cilindro", "Arquivo Externo"}));
+		comboBox.setBounds(13, 398, 134, 22);
+		comboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String selected = (String) comboBox.getSelectedItem();
+				if(selected.equals("Arquivo Externo")) {
+					textField.setVisible(true);
+					btnNewButton.setVisible(true);
+				}else {
+					textField.setVisible(false);
+					btnNewButton.setVisible(false);
+				}
+			}
+		});
+		panel.add(comboBox);
+		
+		textField = new JTextField();
+		textField.setBounds(12, 431, 135, 20);
+		panel.add(textField);
+		textField.setVisible(false);
+		textField.setColumns(10);
+		
+		JLabel lblObjetoASer = new JLabel("Objeto a ser desenhado");
+		lblObjetoASer.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblObjetoASer.setBounds(12, 373, 147, 14);
+		panel.add(lblObjetoASer);
+		
+		btnNewButton = new JButton("Escolher Arquivo");
+		btnNewButton.setBounds(157, 430, 133, 23);
+		btnNewButton.setVisible(false);
+		btnNewButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int retVal = fc.showOpenDialog(contentPane);
+				if(retVal == JFileChooser.APPROVE_OPTION) {
+					textField.setText(fc.getSelectedFile().getAbsolutePath());
+				}
+			}
+			
+		});
+		panel.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("Desenhar");
+		btnNewButton_1.setBounds(157, 398, 133, 23);
+		panel.add(btnNewButton_1);
+		
 		
 		
 		JPanel panel_1 = new JPanel();
 		this.glCanvas = this.buildGLCanvas();
-		panel_1.add(this.glCanvas); //Quando forem pro Design, comentem essa linha
+		//panel_1.add(this.glCanvas); //Quando forem pro Design, comentem essa linha
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		AppService.getInstance().setObserver(this);
 	}

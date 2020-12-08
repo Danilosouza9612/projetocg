@@ -11,13 +11,13 @@ public class TransformCallBackFactory {
 			private boolean transformed=false;
 			@Override
 			public void execute(GL2 gl) {
-				if(!this.transformed) {
+				/*if(!this.transformed) {
 					Drawing drawing = AppService.getInstance().getDrawing();
 					Translate translate = new Translate(x, y, z);
 					translate.applyTransformation(drawing);
 					this.transformed = true;
-				}
-				//gl.glTranslatef(x, y, z);
+				}*/
+				gl.glTranslatef(x, y, z);
 			}
 		};
 	}
