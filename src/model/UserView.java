@@ -13,14 +13,12 @@ public class UserView{
 		this.angleY = 0;
 		this.zoom = 10;
 		this.initialPos();
-		this.applyTransform(new RotateY(this.angleY));
-		this.applyTransform(new RotateX(this.angleX));
 	}
 	
 	private void initialPos() {
 		this.X = 0;
 		this.Y = 0;
-		this.Z = (float) (Math.exp(this.zoom)/Math.pow(2, this.zoom))+9;
+		this.Z = ((float) (Math.exp(this.zoom)/Math.pow(2, this.zoom))+9);
 	}
 
 	public float getX() {
@@ -69,15 +67,11 @@ public class UserView{
 	
 	public void rotateX(int deg) {
 		deg = -(deg/16);
-		this.applyTransform(new RotateY(-this.angleY));
-		this.applyTransform(new RotateX(deg));
-		this.applyTransform(new RotateY(this.angleY));
 		this.angleX+=deg;
 	}
 	
 	public void rotateY(int deg) {
-		deg = -(deg/16);
-		this.applyTransform(new RotateY(deg));
+		deg = (deg/16);
 		this.angleY+=deg;
 	}
 	
@@ -85,16 +79,24 @@ public class UserView{
 		if((this.zoom+zoom)<17) {
 			this.zoom+=zoom;
 			this.initialPos();
-			this.applyTransform(new RotateX(this.angleX));
-			this.applyTransform(new RotateY(this.angleY));
 		}
 	}
-	
-	public void applyTransform(Transformation transformation){
-		float[][] mat = {{this.X}, {this.Y}, {this.Z}, {1}};
-		mat = transformation.transform(mat);
-		this.X = mat[0][0];
-		this.Y = mat[1][0];
-		this.Z = mat[2][0];
+
+	public int getAngleX() {
+		return angleX;
 	}
+
+	public void setAngleX(int angleX) {
+		this.angleX = angleX;
+	}
+
+	public int getAngleY() {
+		return angleY;
+	}
+
+	public void setAngleY(int angleY) {
+		this.angleY = angleY;
+	}
+	
+
 }

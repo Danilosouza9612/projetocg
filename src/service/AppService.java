@@ -1,8 +1,6 @@
 package service;
 
-import model.Composite;
 import model.Drawing;
-import model.ObjDrawing;
 import model.TransformCallBack;
 import model.TransformCallBackFactory;
 import model.UserView;
@@ -15,7 +13,6 @@ public class AppService implements Observable{
 	private boolean showYZgrid;
 	private boolean showXYgrid;
 	private boolean showAxis;
-	private Composite transformations;
 	private Drawing drawing;
 	private Observer observer;
 	private UserView userView;
@@ -24,7 +21,8 @@ public class AppService implements Observable{
 		TransformCallBackFactory factory = new TransformCallBackFactory();
 		this.showXZGrid = true;
 		this.showAxis = true;
-		this.drawing = new ObjDrawing("src//diverso.obj");
+		this.drawing = new Drawing("src//untitled.obj");
+		//this.drawing.addTransform(factory.createRotateY(90));
 		this.userView = new UserView();
 	}
 	
@@ -58,10 +56,6 @@ public class AppService implements Observable{
 	public void setShowXYgrid(boolean showXYgrid) {
 		this.showXYgrid = showXYgrid;
 		this.notificar();
-	}
-	
-	public Composite getTransformation() {
-		return this.transformations;
 	}
 	
 	public void addTransformation(TransformCallBack transformation) {

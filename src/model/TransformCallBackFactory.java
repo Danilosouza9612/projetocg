@@ -2,11 +2,23 @@ package model;
 
 import com.jogamp.opengl.GL2;
 
+import service.AppService;
+
 public class TransformCallBackFactory {
 	
 	public TransformCallBack createTranslate(float x, float y, float z) {
-		return (gl) -> {
-			gl.glTranslatef(x, y, z);
+		return new TransformCallBack() {
+			private boolean transformed=false;
+			@Override
+			public void execute(GL2 gl) {
+				if(!this.transformed) {
+					Drawing drawing = AppService.getInstance().getDrawing();
+					Translate translate = new Translate(x, y, z);
+					translate.applyTransformation(drawing);
+					this.transformed = true;
+				}
+				//gl.glTranslatef(x, y, z);
+			}
 		};
 	}
 	
@@ -118,7 +130,9 @@ public class TransformCallBackFactory {
 			};
 			@Override
 			public void execute(GL2 gl) {
+				//gl.glTranslatef(-9, 0, 0);
 				gl.glMultMatrixf(this.shearMatrix, 0);
+				//gl.glTranslatef(9, 0, 0);
 			}
 		};
 	}
