@@ -1,15 +1,15 @@
 package model;
 
-public class Translate extends Transformation{
+public class ShearZ extends Transformation{
 	private float[][] matrix;
 	
-	public Translate(float dx, float dy, float dz) {
+	public ShearZ(float a, float b) {
 		super(false);
 		float[][] matrix = {
-				{1, 0, 0, dx},
-				{0, 1, 0, dy},
-				{0, 0, 1, dz},
-				{0, 0, 0, 1},
+			{1, 0, a, 0},
+			{0, 1, b, 0},
+			{0, 0, 1, 0},
+			{0, 0, 0, 1},
 		};
 		this.matrix = matrix;
 	}
@@ -25,4 +25,5 @@ public class Translate extends Transformation{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

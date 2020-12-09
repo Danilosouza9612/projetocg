@@ -11,7 +11,19 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 
+import model.CompositeFactory;
+import model.ReflexionXY;
+import model.ReflexionXZ;
+import model.ReflexionYZ;
+import model.RotateX;
+import model.RotateY;
+import model.RotateZ;
+import model.Scale;
+import model.ShearX;
+import model.ShearY;
+import model.ShearZ;
 import model.TransformCallBackFactory;
+import model.Translate;
 import pattern.observer.Observer;
 import renderer.Renderer;
 import service.AppService;
@@ -72,9 +84,9 @@ public class Window extends JFrame implements Observer{
 				float x = transXField.getText().isEmpty() ? 0 : Float.parseFloat((String)transXField.getText());
 				float y = transYField.getText().isEmpty() ? 0 : Float.parseFloat((String)transYField.getText());
 				float z = transZField.getText().isEmpty() ? 0 : Float.parseFloat((String)transZField.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				Translate translate = new Translate(x,y,z);
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createTranslate(x, y, z));
+				appService.applyTransform(translate);
 			}
 		});
 		
@@ -135,9 +147,9 @@ public class Window extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				
 				float x = rotationField.getText().isEmpty() ? 0 : Float.parseFloat((String)rotationField.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				RotateX rotateX = new RotateX(x);
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createRotateX(x));
+				appService.applyTransform(rotateX);
 			}
 		});
 		
@@ -149,11 +161,11 @@ public class Window extends JFrame implements Observer{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				float y = rotationField.getText().isEmpty() ? 0 : Float.parseFloat((String)rotationField.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				RotateY rotateY = new RotateY(y);
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createRotateY(y));
+				CompositeFactory factory = appService.getCompositeFactory();
+				appService.applyTransform(factory.createOriginTransformation(rotateY));
 			}
 		});
 		panel.add(applyRotation_Y);
@@ -163,9 +175,9 @@ public class Window extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				
 				float z = rotationField.getText().isEmpty() ? 0 : Float.parseFloat((String)rotationField.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				RotateZ rotateZ = new RotateZ(z);
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createRotateZ(z));
+				appService.applyTransform(rotateZ);
 			}
 		});
 		applyRotation_Z.setBounds(207, 118, 69, 23);
@@ -216,9 +228,10 @@ public class Window extends JFrame implements Observer{
 				float x = scaleXField.getText().isEmpty() || scaleXField.getText().equals("0") ? 1 : Float.parseFloat((String)scaleXField.getText());
 				float y = scaleYField.getText().isEmpty() || scaleYField.getText().equals("0") ? 1 : Float.parseFloat((String)scaleYField.getText());
 				float z = scaleZField.getText().isEmpty() || scaleZField.getText().equals("0") ? 1 : Float.parseFloat((String)scaleZField.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createScale(x, y, z));
+				CompositeFactory factory = appService.getCompositeFactory();
+				Scale scale = new Scale(x,y,z);
+				appService.applyTransform(factory.createOriginNearestPointTransformation(scale));
 			}
 		});
 		panel.add(applyScale);
@@ -237,9 +250,9 @@ public class Window extends JFrame implements Observer{
 				
 				float a = shearFieldA.getText().isEmpty() ? 0 : Float.parseFloat((String)shearFieldA.getText());
 				float b = shearFieldB.getText().isEmpty() ? 0 : Float.parseFloat((String)shearFieldB.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				ShearZ shearZ = new ShearZ(a, b);
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createShearZ(a,b));
+				appService.applyTransform(shearZ);
 			}
 		});
 		panel.add(applyShear_Z);
@@ -253,9 +266,9 @@ public class Window extends JFrame implements Observer{
 				
 				float a = shearFieldA.getText().isEmpty() ? 0 : Float.parseFloat((String)shearFieldA.getText());
 				float b = shearFieldB.getText().isEmpty() ? 0 : Float.parseFloat((String)shearFieldB.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				ShearY shearY = new ShearY(a, b);
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createShearY(a,b));
+				appService.applyTransform(shearY);
 			}
 		});
 		panel.add(applyShear_Y);
@@ -269,9 +282,9 @@ public class Window extends JFrame implements Observer{
 				
 				float a = shearFieldA.getText().isEmpty() ? 0 : Float.parseFloat((String)shearFieldA.getText());
 				float b = shearFieldB.getText().isEmpty() ? 0 : Float.parseFloat((String)shearFieldB.getText());
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				ShearX shearX = new ShearX(a, b);
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createShearX(a,b));
+				appService.applyTransform(shearX);
 			}
 		});
 		panel.add(applyShear_X);
@@ -307,9 +320,9 @@ public class Window extends JFrame implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				ReflexionYZ reflexionYZ = new ReflexionYZ(); 
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createReflexionYZ());
+				appService.applyTransform(reflexionYZ);
 			}
 			
 		});
@@ -321,9 +334,9 @@ public class Window extends JFrame implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				ReflexionXZ reflexionXZ = new ReflexionXZ();
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createReflexionXZ());
+				appService.applyTransform(reflexionXZ);
 			}
 			
 		});
@@ -335,9 +348,9 @@ public class Window extends JFrame implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				TransformCallBackFactory factory = new TransformCallBackFactory();
+				ReflexionXY reflexionXY = new ReflexionXY();
 				AppService appService = AppService.getInstance();
-				appService.addTransformation(factory.createReflexionXY());
+				appService.applyTransform(reflexionXY);
 			}
 			
 		});
@@ -393,11 +406,23 @@ public class Window extends JFrame implements Observer{
 		btnNewButton_1.setBounds(157, 398, 133, 23);
 		panel.add(btnNewButton_1);
 		
+		JButton btnNewButton_2 = new JButton("Restaurar");
+		btnNewButton_2.setBounds(10, 462, 89, 23);
+		btnNewButton_2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AppService appService = AppService.getInstance();
+				appService.resetDraw();
+			}
+		});
+		panel.add(btnNewButton_2);
+		
 		
 		
 		JPanel panel_1 = new JPanel();
 		this.glCanvas = this.buildGLCanvas();
-		//panel_1.add(this.glCanvas); //Quando forem pro Design, comentem essa linha
+		panel_1.add(this.glCanvas); //Quando forem pro Design, comentem essa linha
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		AppService.getInstance().setObserver(this);
 	}

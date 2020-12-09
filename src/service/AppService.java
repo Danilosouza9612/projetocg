@@ -1,8 +1,10 @@
 package service;
 
+import model.CompositeFactory;
 import model.Drawing;
 import model.TransformCallBack;
 import model.TransformCallBackFactory;
+import model.Transformation;
 import model.UserView;
 import pattern.observer.Observable;
 import pattern.observer.Observer;
@@ -62,6 +64,11 @@ public class AppService implements Observable{
 		this.drawing.addTransform(transformation);
 		this.notificar();
 	}
+	
+	public void applyTransform(Transformation transformation) {
+		transformation.transform(this.drawing);
+		this.notificar();
+	}
 
 	public boolean isShowAxis() {
 		return showAxis;
@@ -116,6 +123,15 @@ public class AppService implements Observable{
 
 	public void setUserView(UserView userView) {
 		this.userView = userView;
+	}
+	
+	public void resetDraw() {
+		this.drawing.reset();
+		this.notificar();
+	}
+	
+	public CompositeFactory getCompositeFactory() {
+		return new CompositeFactory(this.drawing);
 	}
 
 	@Override

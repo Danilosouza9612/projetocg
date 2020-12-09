@@ -1,15 +1,15 @@
 package model;
 
-public class Translate extends Transformation{
+public class ShearX extends Transformation{
 	private float[][] matrix;
 	
-	public Translate(float dx, float dy, float dz) {
+	public ShearX(float a, float b) {
 		super(false);
 		float[][] matrix = {
-				{1, 0, 0, dx},
-				{0, 1, 0, dy},
-				{0, 0, 1, dz},
-				{0, 0, 0, 1},
+			{1, 0, 0, 0},
+			{a, 1, 0, 0},
+			{b, 0, 1, 0},
+			{0, 0, 0, 1},
 		};
 		this.matrix = matrix;
 	}
